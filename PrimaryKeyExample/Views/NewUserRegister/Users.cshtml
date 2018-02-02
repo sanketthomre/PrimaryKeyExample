@@ -1,0 +1,28 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+@using (Html.BeginForm())
+{
+
+    @Html.ValidationSummary()
+
+    <fieldset>
+
+
+        <legend></legend>
+
+        <ol>
+
+            @Html.Label("UserName")
+
+            @Html.TextBox("UserName")
+
+        </ol>
+
+        <input type="submit" value="FindName" />
+
+    </fieldset>
+}
