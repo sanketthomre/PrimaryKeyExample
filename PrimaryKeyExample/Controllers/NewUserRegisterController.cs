@@ -49,7 +49,7 @@ namespace PrimaryKeyExample.Controllers
                 return View();
             }
 
-        } //End of NewUser Method
+        } //End of NewUser Method note
         [HttpGet]
         public ActionResult Login()
         {
@@ -60,8 +60,17 @@ namespace PrimaryKeyExample.Controllers
         {
             if(ModelState.IsValid && WebSecurity.UserExists(login.UserName))
             {
-                WebSecurity.Login(login.UserName, login.Password);
-                return RedirectToAction("Welcome");
+                try
+                {
+                    WebSecurity.Login(login.UserName, login.Password);
+                    Session["UserName"] = login.UserName;
+                    return RedirectToAction("Welcome",new { username = login.UserName });
+                }
+                catch(Exception e)
+                {
+                    ModelState.AddModelError("", "Somethings Wiered Happened. Pls try again later" + e.Message);
+                    return View();
+                }
             }
             else
             {
