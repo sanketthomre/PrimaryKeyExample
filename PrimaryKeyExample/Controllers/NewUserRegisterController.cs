@@ -1,4 +1,5 @@
-﻿using PrimaryKeyExample.Models;
+﻿using PrimaryKeyExample.Context;
+using PrimaryKeyExample.Models;
 using PrimaryKeyExample.Server;
 using System;
 using System.Collections.Generic;
@@ -26,26 +27,35 @@ namespace PrimaryKeyExample.Controllers
         [HttpPost]
         public ActionResult NewUser(NewUser newUser)
         {
-            if (ModelState.IsValid && !WebSecurity.UserExists(newUser.UserName))
+            if (Session["UserName"] == null)
             {
-                try
-                {
-                    WebSecurity.CreateUserAndAccount(newUser.UserName, newUser.Password);
-                    var UserId = WebSecurity.GetUserId(newUser.UserName);
-                    methods.Add(UserId, newUser.Name, newUser.MobileNumber, newUser.UserName, newUser.Password, newUser.Aadharnum);
-                    return RedirectToAction("Login");
-                }
-                catch (Exception e)
-                {
 
-                    ModelState.AddModelError("", "SomeThing weird happend.. Try again later" + e.Message);
+                if (ModelState.IsValid && !WebSecurity.UserExists(newUser.UserName))
+                {
+                    try
+                    {
+                        WebSecurity.CreateUserAndAccount(newUser.UserName, newUser.Password);
+                        var UserId = WebSecurity.GetUserId(newUser.UserName);
+                        methods.Add(UserId, newUser.Name, newUser.MobileNumber, newUser.UserName, newUser.Password, newUser.Aadharnum);
+                        return RedirectToAction("Login");
+                    }
+                    catch (Exception e)
+                    {
+
+                        ModelState.AddModelError("", "SomeThing weird happend.. Try again later" + e.Message);
+                        return View();
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError("", "User Already Exists");
                     return View();
                 }
-
             }
             else
             {
-                ModelState.AddModelError("", "User Already Exists");
+                ModelState.AddModelError("","Already Logged in as" + Session["UserName"]);
                 return View();
             }
 
@@ -90,5 +100,24 @@ namespace PrimaryKeyExample.Controllers
             string UserName = methods.AllUser(UserID);
             return View(UserName);
         }
+        [HttpPost]
+        public ActionResult Welcome(NewUser newUser)
+        {
+            if (Session["UserName"] != null)
+            {
+                ViewBag.Username = Session["UserName"];
+                return View(newUser);
+            }
+            else
+            {
+
+                return View();
+            }
+        }
+        public ActionResult DisplayAll()
+        {
+            return View(methods.DisplayAll());
+        }
+        
     }
 }

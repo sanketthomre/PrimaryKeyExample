@@ -31,5 +31,10 @@ namespace PrimaryKeyExample.Server
                          select data.Name;
             return (result.ToString());
         }
+        public List<NewUser> DisplayAll()
+        {
+            var Displayall =(database.NewUSers).ToList();
+            return Displayall;
+        }
     }
 }
