@@ -1,4 +1,5 @@
 ﻿using PrimaryKeyExample.Models;
+using PrimaryKeyExample.Models.Transactions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,7 +11,8 @@ namespace PrimaryKeyExample.Context
     public class DatabaseContext : DbContext
     {
         public DbSet<NewUser> NewUSers { get; set; }
-
+        public DbSet<Recharge> Recharge { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
         //public DbSet<Student> Students { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -22,7 +22,16 @@ namespace PrimaryKeyExample.Controllers
         [HttpGet]
         public ActionResult NewUser()
         {
+            if (Session["UserName"] == null)
+            {
+                return View();
+            }
+            else
+            {
+                RedirectToAction("Welcome");
+            }
             return View();
+
         }
         [HttpPost]
         public ActionResult NewUser(NewUser newUser)
@@ -32,20 +41,28 @@ namespace PrimaryKeyExample.Controllers
 
                 if (ModelState.IsValid && !WebSecurity.UserExists(newUser.UserName))
                 {
-                    try
+                    if (methods.Check(newUser.MobileNumber))
                     {
-                        WebSecurity.CreateUserAndAccount(newUser.UserName, newUser.Password);
-                        var UserId = WebSecurity.GetUserId(newUser.UserName);
-                        methods.Add(UserId, newUser.Name, newUser.MobileNumber, newUser.UserName, newUser.Password, newUser.Aadharnum);
-                        return RedirectToAction("Login");
-                    }
-                    catch (Exception e)
-                    {
+                        try
+                        {
+                            WebSecurity.CreateUserAndAccount(newUser.UserName, newUser.Password);
+                            var UserId = WebSecurity.GetUserId(newUser.UserName);
+                            methods.Add(UserId, newUser.Name, newUser.MobileNumber, newUser.UserName, newUser.Password, newUser.Aadharnum);
+                            return RedirectToAction("Login");
+                        }
+                        catch (Exception e)
+                        {
 
-                        ModelState.AddModelError("", "SomeThing weird happend.. Try again later" + e.Message);
+                            ModelState.AddModelError("", "SomeThing weird happend.. Try again later" + e.Message);
+                            return View();
+                        }
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Number Already Exists");
                         return View();
                     }
-
                 }
                 else
                 {
@@ -60,10 +77,19 @@ namespace PrimaryKeyExample.Controllers
             }
 
         } //End of NewUser Method note
+
         [HttpGet]
         public ActionResult Login()
         {
-            return View();
+            if (Session["UserName"] == null)
+            {
+                return View();
+            }
+            else
+            {
+               return RedirectToAction("Welcome","NewUserRegister");
+            }
+            //return View();
         }
         [HttpPost]
         public ActionResult Login(Login login)
@@ -74,7 +100,7 @@ namespace PrimaryKeyExample.Controllers
                 {
                     WebSecurity.Login(login.UserName, login.Password);
                     Session["UserName"] = login.UserName;
-                    return RedirectToAction("Welcome",new { username = login.UserName });
+                    return RedirectToAction("Welcome");
                 }
                 catch(Exception e)
                 {
@@ -100,6 +126,12 @@ namespace PrimaryKeyExample.Controllers
             string UserName = methods.AllUser(UserID);
             return View(UserName);
         }
+        [HttpGet]
+        public ActionResult Welcome()
+        {
+            ViewBag.Username = Session["UserName"];
+            return View();
+        }
         [HttpPost]
         public ActionResult Welcome(NewUser newUser)
         {
@@ -117,6 +149,26 @@ namespace PrimaryKeyExample.Controllers
         public ActionResult DisplayAll()
         {
             return View(methods.DisplayAll());
+        }
+        [HttpGet]
+        public ActionResult DisplayDetails(NewUser newUser)
+        {
+            if (Session["UserName"] != null)
+            {
+                var UserID = WebSecurity.GetUserId(Session["UserName"].ToString());
+                newUser = methods.DisplayDetails(UserID);
+                return View(newUser);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Please Login to Display Your Details");
+                return RedirectToAction("Login");
+            }
+        }
+        public ActionResult Edit(int? id)
+        {
+
+            return View();
         }
         
     }

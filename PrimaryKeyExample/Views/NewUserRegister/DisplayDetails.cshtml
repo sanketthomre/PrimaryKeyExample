@@ -1,0 +1,43 @@
+﻿@model PrimaryKeyExample.Models.NewUser
+
+@{
+    ViewBag.Title = "DisplayDetails";
+}
+
+<h2>DisplayDetails</h2>
+
+<div>
+    <h4>NewUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aadharnum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aadharnum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MobileNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MobileNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.NewUserId }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>
