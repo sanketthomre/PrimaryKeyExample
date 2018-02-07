@@ -1,5 +1,6 @@
 ﻿using PrimaryKeyExample.Context;
 using PrimaryKeyExample.Models;
+using PrimaryKeyExample.Models.Admin_Controlls;
 using PrimaryKeyExample.Server;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace PrimaryKeyExample.Controllers
 
         }
         [HttpPost]
-        public ActionResult NewUser(NewUser newUser)
+        public ActionResult NewUser(NewUserEdit newUser)
         {
             if (Session["UserName"] == null)
             {
@@ -120,7 +121,7 @@ namespace PrimaryKeyExample.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Users(NewUser newUser)
+        public ActionResult Users(NewUserEdit newUser)
         {
             var UserID = WebSecurity.GetUserId(newUser.UserName);
             string UserName = methods.AllUser(UserID);
@@ -133,7 +134,7 @@ namespace PrimaryKeyExample.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Welcome(NewUser newUser)
+        public ActionResult Welcome(NewUserEdit newUser)
         {
             if (Session["UserName"] != null)
             {
@@ -151,7 +152,7 @@ namespace PrimaryKeyExample.Controllers
             return View(methods.DisplayAll());
         }
         [HttpGet]
-        public ActionResult DisplayDetails(NewUser newUser)
+        public ActionResult DisplayDetails(NewUserEdit newUser)
         {
             if (Session["UserName"] != null)
             {
@@ -165,10 +166,23 @@ namespace PrimaryKeyExample.Controllers
                 return RedirectToAction("Login");
             }
         }
-        public ActionResult Edit(int? id)
+        [HttpGet]
+        public ActionResult Edit()
         {
-
             return View();
+        }
+        [HttpPost]
+        public ActionResult Edit(EditNewUser EditNewUser)
+        {
+            DatabaseContext databaseContext = new DatabaseContext();
+            var UserId = WebSecurity.GetUserId(Session["UserName"].ToString());
+            NewUserEdit newUser = databaseContext.NewUSers.Find(UserId);
+
+            newUser.Name = EditNewUser.Name;
+            newUser.MobileNumber = EditNewUser.MobileNumber;
+            newUser.Aadharnum = EditNewUser.Aadharnum;
+            databaseContext.SaveChanges();
+            return View(newUser);
         }
         
     }

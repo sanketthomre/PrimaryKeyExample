@@ -170,7 +170,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Admin_Controlls\NewUsersEdit.cs" />
+    <Compile Include="Models\Admin_Controlls\EditNewUser.cs" />
     <Compile Include="Models\NewUser.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Transactions\AllTransactions.cs" />
@@ -229,6 +229,7 @@
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Recharge\Recharge.cshtml" />
     <Content Include="Views\NewUserRegister\DisplayDetails.cshtml" />
+    <Content Include="Views\NewUserRegister\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

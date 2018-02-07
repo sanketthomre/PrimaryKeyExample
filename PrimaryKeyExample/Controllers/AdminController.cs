@@ -39,16 +39,18 @@ namespace PrimaryKeyExample.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(NewUsersEdit userDetails)
+        public ActionResult Edit(EditNewUser userDetails)
         {
             //if (ModelState.IsValid)
             //{
             try
             {
-                NewUser newUser = new NewUser();
-                newUser.Name = userDetails.Name;
-                newUser.MobileNumber = userDetails.MobileNumber;
-                newUser.Aadharnum = userDetails.Aadharnum;
+                NewUserEdit newUser = new NewUserEdit
+                {
+                    Name = userDetails.Name,
+                    MobileNumber = userDetails.MobileNumber,
+                    Aadharnum = userDetails.Aadharnum
+                };
                 db.Entry(newUser).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("DisplayAll");

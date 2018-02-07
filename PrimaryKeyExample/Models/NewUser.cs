@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace PrimaryKeyExample.Models
 {
-    public class NewUser
+    public class NewUserEdit
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

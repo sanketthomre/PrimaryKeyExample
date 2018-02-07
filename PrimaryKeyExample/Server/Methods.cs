@@ -14,7 +14,7 @@ namespace PrimaryKeyExample.Server
         private DatabaseContext database = new DatabaseContext();
         public void Add(int UserId, string Name, long MobileNumber, string UserName, string Password, long AadharNum)
         {
-            NewUser NewUsers = new NewUser()
+            NewUserEdit NewUsers = new NewUserEdit()
             {
                 UserId = UserId,
                 Name = Name,
@@ -33,14 +33,14 @@ namespace PrimaryKeyExample.Server
                          select data.Name;
             return (result.ToString());
         }
-        public List<NewUser> DisplayAll()
+        public List<NewUserEdit> DisplayAll()
         {
             var Displayall =(database.NewUSers).ToList();
             return Displayall;
         }
-        public NewUser DisplayDetails(int UserId)
+        public NewUserEdit DisplayDetails(int UserId)
         {
-            NewUser newUser = database.NewUSers.Find(UserId);
+            NewUserEdit newUser = database.NewUSers.Find(UserId);
             return newUser;
 
         }

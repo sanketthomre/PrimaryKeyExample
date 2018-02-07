@@ -6,18 +6,14 @@ using System.Web;
 
 namespace PrimaryKeyExample.Models.Admin_Controlls
 {
-    public class NewUsersEdit
+    public class EditNewUser
     {
         public int NewUserId { get; set; }
-
-        [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set; }
-
-        [Required(ErrorMessage = "Aadhar number is required")]
-        public long Aadharnum { get; set; }
-
         
-        [Required(ErrorMessage = "Contact number is required")]
+        public string Name { get; set; }
+        
+        public long Aadharnum { get; set; }
+        
         public long MobileNumber { get; set; }
         
 
