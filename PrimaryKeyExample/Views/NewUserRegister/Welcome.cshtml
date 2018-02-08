@@ -2,6 +2,23 @@
 @{
     ViewBag.Title = "Welcome";
 }
-
+<script src="~/Scripts/jquery-1.10.2.intellisense.js"></script>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
 <h2>Welcome @ViewBag.UserName</h2>
+<ul>
+    <li>@Html.ActionLink("Check Your Profile?", "DisplayDetails")</li>
+    <li>@Html.ActionLink("Check Your Transactions?", "DisplayTransactions")</li>
+    <li>@Html.ActionLink("Logout?","Logout")</li>
+</ul>
+@using (Html.BeginForm("Logout", "NewUserRegister"))
+{
+<input type="button" value="Logout" id="Logout" />
+
+}
 <a href="~/Models/"></a>
+<script>
+    $('#Logout').click(function () {
+        alert("Thanks For Your Time")
+    });
+</script>

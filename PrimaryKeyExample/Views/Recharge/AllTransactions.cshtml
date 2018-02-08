@@ -1,0 +1,50 @@
+﻿@model List<PrimaryKeyExample.Models.Transactions.AllTransactions>
+@{
+    ViewBag.Title = "AllTransactions";
+}
+<h2>AllTransactions</h2>
+
+<table style="text-decoration:dashed;font-style:italic" >
+    <tr >
+        <th>
+            <label>Mobile Number </label>
+        </th>
+        <th>
+            <label>Amount</label>
+        </th>
+        <th>
+            <label>DatOfTransaction </label>
+        </th>
+        <th>
+            <label>Status </label>
+        </th>
+        <th>
+            <label>Operataor </label>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MobileNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem=>item.Amount)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfTransation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Operator)
+        </td>
+
+    </tr>
+     
+        
+    }
+</table>

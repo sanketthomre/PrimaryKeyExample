@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebMatrix.WebData;
 
 namespace PrimaryKeyExample.Controllers
 {
@@ -40,7 +41,8 @@ namespace PrimaryKeyExample.Controllers
                     Status = true,
                     ErrorMessage = "Success"
                 };
-                methods.SaveTransactions(transaction,recharge);
+                var UserId = WebSecurity.GetUserId(Session["UserName"].ToString());
+                methods.SaveTransactions(transaction,recharge,UserId);
                 return RedirectToAction("Welcome", "NewUserRegister");
             }
             catch (Exception e)
@@ -51,10 +53,29 @@ namespace PrimaryKeyExample.Controllers
                     ErrorMessage = e.Message,
                     DateOfTransation = DateTime.Now,                   
                 };
-                methods.SaveTransactions(transaction, recharge);
+                var UserId = WebSecurity.GetUserId(Session["UserName"].ToString());
+                methods.SaveTransactions(transaction, recharge,UserId);
                 ModelState.AddModelError("", "Error" + e.Message);
                 return View();
             }
+        }
+        public ActionResult AllTransactions()
+        {
+            DatabaseContext db = new DatabaseContext();
+            List<Transaction> transaction = db.Transaction.ToList();
+            List<Recharge> recharge = db.Recharge.ToList();
+            var model = (from t in transaction join r in recharge on t.RechargeID equals r.RechargeID orderby r.Amount
+                         select new AllTransactions()
+                         {
+                            UserID = r.UserID,
+                            MobileNumber = r.MobileNumber,
+                            DateOfTransation = t.DateOfTransation,
+                            Amount = r.Amount,
+                            Operator = r.Operator,
+                            Status = t.Status
+                        }).ToList();
+
+            return View(model);
         }
     }
 }

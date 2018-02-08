@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace PrimaryKeyExample.Models.UserTransactions
 {
-    public class UserRecharge
+    public class UserTransactions
     {
-        [Key]
         public int UserId { get; set; }
         public long MobileNumber { get; set; }
         public double Amount { get; set; }

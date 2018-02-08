@@ -11,6 +11,7 @@ namespace PrimaryKeyExample.Models.Transactions
     {
         [Key]
         public int TransationID { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfTransation { get; set; }
         public bool Status { get; set; }
         public virtual Recharge Recharge { get; set; }

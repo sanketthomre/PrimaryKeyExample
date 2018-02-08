@@ -1,4 +1,4 @@
-﻿@model PrimaryKeyExample.Models.NewUser
+﻿@model PrimaryKeyExample.Models.NewUserEdit
 
 @{
     ViewBag.Title = "DisplayDetails";
@@ -7,7 +7,8 @@
 <h2>DisplayDetails</h2>
 
 <div>
-    <h4>NewUser</h4>
+    <h4>Hi @Html.DisplayFor(model=>model.Name) </h4>
+    <h6>Check Out Your Details..</h6>
     <hr />
     <dl class="dl-horizontal">
 
@@ -38,6 +39,5 @@
     </dl>
 </div>
 <p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.NewUserId }) |*@
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to HomePage", "Index","Home")
 </p>

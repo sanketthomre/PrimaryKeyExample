@@ -1,6 +1,8 @@
 ﻿using PrimaryKeyExample.Context;
 using PrimaryKeyExample.Models;
 using PrimaryKeyExample.Models.Admin_Controlls;
+using PrimaryKeyExample.Models.Transactions;
+using PrimaryKeyExample.Models.UserTransactions;
 using PrimaryKeyExample.Server;
 using System;
 using System.Collections.Generic;
@@ -44,17 +46,25 @@ namespace PrimaryKeyExample.Controllers
                 {
                     if (methods.Check(newUser.MobileNumber))
                     {
-                        try
+                        if (methods.ValidateMobileNumber(newUser.MobileNumber))
                         {
-                            WebSecurity.CreateUserAndAccount(newUser.UserName, newUser.Password);
-                            var UserId = WebSecurity.GetUserId(newUser.UserName);
-                            methods.Add(UserId, newUser.Name, newUser.MobileNumber, newUser.UserName, newUser.Password, newUser.Aadharnum);
-                            return RedirectToAction("Login");
-                        }
-                        catch (Exception e)
-                        {
+                            try
+                            {
+                                WebSecurity.CreateUserAndAccount(newUser.UserName, newUser.Password);
+                                var UserId = WebSecurity.GetUserId(newUser.UserName);
+                                methods.Add(UserId, newUser.Name, newUser.MobileNumber, newUser.UserName, newUser.Password, newUser.Aadharnum);
+                                return RedirectToAction("Login");
+                            }
+                            catch (Exception e)
+                            {
 
-                            ModelState.AddModelError("", "SomeThing weird happend.. Try again later" + e.Message);
+                                ModelState.AddModelError("", "SomeThing weird happend.. Try again later" + e.Message);
+                                return View();
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Mobile Number is Invalid");
                             return View();
                         }
 
@@ -73,8 +83,7 @@ namespace PrimaryKeyExample.Controllers
             }
             else
             {
-                ModelState.AddModelError("","Already Logged in as" + Session["UserName"]);
-                return View();
+                return RedirectToAction("Welcome");
             }
 
         } //End of NewUser Method note
@@ -123,9 +132,17 @@ namespace PrimaryKeyExample.Controllers
         [HttpPost]
         public ActionResult Users(NewUserEdit newUser)
         {
-            var UserID = WebSecurity.GetUserId(newUser.UserName);
-            string UserName = methods.AllUser(UserID);
-            return View(UserName);
+            try
+            {
+                var UserID = WebSecurity.GetUserId(newUser.UserName);
+                string UserName = methods.AllUser(UserID);
+                return View(UserName);
+            }
+            catch(Exception e)
+            {
+                ModelState.AddModelError("", "Try Again"+e.Message);
+                return View();
+            }
         }
         [HttpGet]
         public ActionResult Welcome()
@@ -151,7 +168,7 @@ namespace PrimaryKeyExample.Controllers
         {
             return View(methods.DisplayAll());
         }
-        [HttpGet]
+        
         public ActionResult DisplayDetails(NewUserEdit newUser)
         {
             if (Session["UserName"] != null)
@@ -164,6 +181,20 @@ namespace PrimaryKeyExample.Controllers
             {
                 ModelState.AddModelError("", "Please Login to Display Your Details");
                 return RedirectToAction("Login");
+            }
+        }
+        [HttpGet]
+        public ActionResult DisplayTransactions(List<UserTransactions> userTransactions)
+        {
+            var UserId = WebSecurity.GetUserId(Session["UserName"].ToString());
+            if (methods.TransactionExists(UserId))
+            {
+                return View(methods.UserTransaction(UserId));
+            }
+            else
+            {
+                ModelState.AddModelError("", "No Transactions Found");
+                return RedirectToAction("Welcome");
             }
         }
         [HttpGet]
@@ -184,6 +215,14 @@ namespace PrimaryKeyExample.Controllers
             databaseContext.SaveChanges();
             return View(newUser);
         }
+        [HttpGet]
+        public ActionResult Logout(NewUser newUser)
+        {
+            Session["UserName"] = null;
+            WebSecurity.Logout();
+            return RedirectToAction("Index", "Home");
+        }
+
         
     }
 }

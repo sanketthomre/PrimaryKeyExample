@@ -4,15 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PrimaryKeyExample.Models
 {
-    public class NewUser
+    public class NewUserEdit
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NewUserId { get; set; }
-
+       
         public int UserId { get; set; }
 
         [Index(IsUnique = true)]
@@ -36,6 +37,16 @@ namespace PrimaryKeyExample.Models
         [Required(ErrorMessage = "Contact number is required")]
         public long MobileNumber { get; set; }
         // public List<SelectListItem> State { get; set; }
-       // public virtual ICollection<UserTransactions.UserRecharge>  UserRecharge {get;set;}
+
+
+    }
+    public class Login
+    {
+        [Required(ErrorMessage ="UserName is Required")]
+        public string UserName { get; set; }
+
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage ="Password is Required")]
+        public string Password { get; set; }
     }
 }

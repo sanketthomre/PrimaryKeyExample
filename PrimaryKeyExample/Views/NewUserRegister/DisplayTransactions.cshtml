@@ -1,0 +1,32 @@
+﻿@model IEnumerable<PrimaryKeyExample.Models.UserTransactions.UserTransactions>
+
+@{
+    ViewBag.Title = "DisplayTransactions";
+}
+
+<h2>DisplayTransactions</h2>
+
+<table>
+    <tr>
+        <td>
+            <label>TransactionId</label>
+        </td>
+        <td>
+            <label>MobileNumber</label>
+        </td>
+        <td>
+            <label>Amount</label>
+        </td>
+        <td>
+            <label>Status</label>
+        </td>
+    </tr>
+    @foreach(var item in Model)
+    {<tr>
+    <td>@Html.DisplayFor(modelItem => item.TransactionId)</td>
+    <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+</tr>
+    }
+</table>
