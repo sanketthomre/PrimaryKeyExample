@@ -4,11 +4,9 @@
     ViewBag.Title = "DisplayDetails";
 }
 
-<h2>DisplayDetails</h2>
-
 <div>
     <h4>Hi @Html.DisplayFor(model=>model.Name) </h4>
-    <h6>Check Out Your Details..</h6>
+    <h6>Your Details..</h6>
     <hr />
     <dl class="dl-horizontal">
 
@@ -39,5 +37,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Back to HomePage", "Index","Home")
+    @Html.ActionLink("Back to HomePage", "Index","Home")  <br />
+    @Html.ActionLink("Edit Details?","Edit","NewUserRegister")
 </p>

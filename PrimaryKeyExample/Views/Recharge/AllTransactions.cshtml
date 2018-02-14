@@ -3,48 +3,56 @@
     ViewBag.Title = "AllTransactions";
 }
 <h2>AllTransactions</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 col-md-3">
+            @Html.Partial("_HomePage")
+        </div>
+        <div class="col-md-offset-0 col-sm-7">
+            <table style="text-decoration:dashed;font-style:italic" class="table">
+                <tr>
+                    <th>
+                        <label>Mobile Number </label>
+                    </th>
+                    <th>
+                        <label>Amount</label>
+                    </th>
+                    <th>
+                        <label>DatOfTransaction </label>
+                    </th>
+                    <th>
+                        <label>Status </label>
+                    </th>
+                    <th>
+                        <label>Operataor </label>
+                    </th>
+                </tr>
 
-<table style="text-decoration:dashed;font-style:italic" >
-    <tr >
-        <th>
-            <label>Mobile Number </label>
-        </th>
-        <th>
-            <label>Amount</label>
-        </th>
-        <th>
-            <label>DatOfTransaction </label>
-        </th>
-        <th>
-            <label>Status </label>
-        </th>
-        <th>
-            <label>Operataor </label>
-        </th>
-    </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MobileNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
 
-    @foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MobileNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem=>item.Amount)
-        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfTransation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Operator)
+                        </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.DateOfTransation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Operator)
-        </td>
+                    </tr>
 
-    </tr>
-     
-        
-    }
-</table>
+
+                }
+            </table>
+        </div>
+    </div>
+</div>

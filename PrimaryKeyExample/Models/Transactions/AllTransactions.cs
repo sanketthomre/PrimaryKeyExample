@@ -11,7 +11,7 @@ namespace PrimaryKeyExample.Models.Transactions
         //[Key]
         //public int AllTransactionID { get; set; }
         public int UserID { get; set; }
-        public int MobileNumber { get; set; }
+        public string MobileNumber { get; set; }
         public string Operator { get; set; }
         public double Amount { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}",ApplyFormatInEditMode = true)]

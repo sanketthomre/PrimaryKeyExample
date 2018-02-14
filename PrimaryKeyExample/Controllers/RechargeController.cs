@@ -1,4 +1,5 @@
 ﻿using PrimaryKeyExample.Context;
+using PrimaryKeyExample.Models;
 using PrimaryKeyExample.Models.Transactions;
 using PrimaryKeyExample.Server;
 using System;
@@ -16,7 +17,7 @@ namespace PrimaryKeyExample.Controllers
         // GET: Recharge
         public ActionResult Index()
         {
-            return View();
+            return View("GuestLogin");
         }
         [HttpGet]
         public ActionResult Recharge()
@@ -33,17 +34,27 @@ namespace PrimaryKeyExample.Controllers
         [HttpPost]
         public ActionResult Recharge(Recharge recharge)
         {  
+
             try
             {
-                Transaction transaction = new Transaction
-                {
-                    DateOfTransation = DateTime.Now,
-                    Status = true,
-                    ErrorMessage = "Success"
-                };
-                var UserId = WebSecurity.GetUserId(Session["UserName"].ToString());
-                methods.SaveTransactions(transaction,recharge,UserId);
-                return RedirectToAction("Welcome", "NewUserRegister");
+                    Transaction transaction = new Transaction
+                    {
+                        DateOfTransation = DateTime.Now,
+                        Status = true,
+                        ErrorMessage = "Success"
+                    };
+                    try
+                    {
+                        var UserId = WebSecurity.GetUserId(Session["UserName"].ToString());
+                        methods.SaveTransactions(transaction, recharge, UserId);
+                        return RedirectToAction("Welcome", "NewUserRegister");
+                    }
+                    catch (Exception e)
+                    {
+                        ModelState.AddModelError("", "Please Login to Continue");
+                        return RedirectToAction("Login", "NewUserRecharge");
+                    }
+                
             }
             catch (Exception e)
             {
@@ -76,6 +87,20 @@ namespace PrimaryKeyExample.Controllers
                         }).ToList();
 
             return View(model);
+        }
+        [HttpPost]
+        public ActionResult GuestLogin(GuestLogin Guest)
+        {
+            try
+            {
+                methods.GuesLogin(Guest);
+                return RedirectToAction("Index","Home");
+            }
+            catch(Exception e)
+            {
+                ModelState.AddModelError("", "Error Login"+e);
+                return View();
+            }
         }
     }
 }

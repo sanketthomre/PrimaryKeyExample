@@ -35,7 +35,5 @@ namespace PrimaryKeyExample.Models
         //[RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         [Required(ErrorMessage = "Contact number is required")]
         public long MobileNumber { get; set; }
-        // public List<SelectListItem> State { get; set; }
-       // public virtual ICollection<UserTransactions.UserRecharge>  UserRecharge {get;set;}
     }
 }

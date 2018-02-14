@@ -16,6 +16,7 @@ namespace PrimaryKeyExample.Controllers
 {
     public class NewUserRegisterController : Controller
     {
+
         Methods methods = new Methods();
         // GET: NewUserRegister
         public ActionResult Index()
@@ -48,6 +49,7 @@ namespace PrimaryKeyExample.Controllers
                     {
                         if (methods.ValidateMobileNumber(newUser.MobileNumber))
                         {
+
                             try
                             {
                                 WebSecurity.CreateUserAndAccount(newUser.UserName, newUser.Password);
@@ -97,7 +99,8 @@ namespace PrimaryKeyExample.Controllers
             }
             else
             {
-               return RedirectToAction("Welcome","NewUserRegister");
+                //return PartialView("HomePage");
+                return RedirectToAction("Welcome", "NewUserRegister");
             }
             //return View();
         }
@@ -194,26 +197,22 @@ namespace PrimaryKeyExample.Controllers
             else
             {
                 ModelState.AddModelError("", "No Transactions Found");
-                return RedirectToAction("Welcome");
+                return View("Welcome");
             }
         }
         [HttpGet]
         public ActionResult Edit()
         {
-            return View();
+            var UserId = WebSecurity.GetUserId(Session["UserName"].ToString());
+            NewUserEdit newUser = methods.Find(UserId);
+            return View(newUser);
         }
         [HttpPost]
-        public ActionResult Edit(EditNewUser EditNewUser)
+        public ActionResult Edit([Bind(Include = "Name,AadharNum,MobileNumber")]NewUserEdit newUserEdit)
         {
-            DatabaseContext databaseContext = new DatabaseContext();
             var UserId = WebSecurity.GetUserId(Session["UserName"].ToString());
-            NewUserEdit newUser = databaseContext.NewUSers.Find(UserId);
-
-            newUser.Name = EditNewUser.Name;
-            newUser.MobileNumber = EditNewUser.MobileNumber;
-            newUser.Aadharnum = EditNewUser.Aadharnum;
-            databaseContext.SaveChanges();
-            return View(newUser);
+            methods.EditDetails(UserId,newUserEdit);
+            return RedirectToAction("DisplayDetails");
         }
         [HttpGet]
         public ActionResult Logout(NewUser newUser)
@@ -222,7 +221,19 @@ namespace PrimaryKeyExample.Controllers
             WebSecurity.Logout();
             return RedirectToAction("Index", "Home");
         }
-
-        
+        public ActionResult CheckExistingUserName(string UserName)
+        {
+            bool ifUserName = false;
+            try
+            {
+                ifUserName = methods.UserExists(UserName);
+                
+                return Json(ifUserName, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

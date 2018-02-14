@@ -18,6 +18,7 @@ namespace PrimaryKeyExample.Models
 
         [Index(IsUnique = true)]
         [NotMapped, MinLength(6), MaxLength(50)]
+        [Remote("CheckExistingUserName", "NewUserRegister", ErrorMessage = "UserName already exists!")]
         [Required(ErrorMessage = "Username is required")]
         public string UserName { get; set; }
 
@@ -35,7 +36,7 @@ namespace PrimaryKeyExample.Models
 
         //[RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         [Required(ErrorMessage = "Contact number is required")]
-        public long MobileNumber { get; set; }
+        public string MobileNumber { get; set; }
         // public List<SelectListItem> State { get; set; }
 
 

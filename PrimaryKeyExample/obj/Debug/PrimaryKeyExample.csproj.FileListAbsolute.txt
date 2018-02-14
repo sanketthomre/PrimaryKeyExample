@@ -50,3 +50,5 @@ C:\Users\Sanket-Thinkbridge\source\repos\PrimaryKeyExample\PrimaryKeyExample\bin
 C:\Users\Sanket-Thinkbridge\source\repos\PrimaryKeyExample\PrimaryKeyExample\bin\WebMatrix.WebData.dll
 C:\Users\Sanket-Thinkbridge\source\repos\PrimaryKeyExample\PrimaryKeyExample\bin\WebMatrix.Data.xml
 C:\Users\Sanket-Thinkbridge\source\repos\PrimaryKeyExample\PrimaryKeyExample\bin\WebMatrix.WebData.xml
+C:\Users\Sanket-Thinkbridge\source\repos\PrimaryKeyExample\PrimaryKeyExample\bin\AutoMapper.dll
+C:\Users\Sanket-Thinkbridge\source\repos\PrimaryKeyExample\PrimaryKeyExample\bin\AutoMapper.xml

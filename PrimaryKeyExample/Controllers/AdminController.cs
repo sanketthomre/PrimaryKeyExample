@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web.Mvc;
+using WebMatrix.WebData;
 
 namespace PrimaryKeyExample.Controllers
 {
@@ -19,39 +20,27 @@ namespace PrimaryKeyExample.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            return PartialView("_HomePage");
         }
         public ActionResult DisplayAll()
         {
             return View(methods.DisplayAll());
         }
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int?id)
         {
-            //var data = db.NewUSers.Find(id);
-            var Details = (db.NewUSers.Where(m => m.UserId == id).Select(m => new
-            {
-                NewUserId = m.NewUserId,
-                Name = m.Name,
-                MobileNumber = m.MobileNumber,
-                Aadharnum = m.Aadharnum
-            })).ToList();
-            return View(Details);
+            NewUserEdit data = db.NewUSers.Find(id);
+            return View(data);
+            //return RedirectToAction("Edit", "NewUserRegister");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditNewUser userDetails)
+        public ActionResult Edit([Bind(Include ="Name,AadharNum,MobileNumber")]NewUserEdit data)
         {
-            //if (ModelState.IsValid)
-            //{
             try
-            {
-                NewUserEdit newUser = new NewUserEdit
-                {
-                    Name = userDetails.Name,
-                    MobileNumber = userDetails.MobileNumber,
-                    Aadharnum = userDetails.Aadharnum
-                };
-                db.Entry(newUser).State = EntityState.Modified;
+            {               
+                data.Password = "TempPassword";
+                data.UserName = "TempUserName";
+                db.Entry(data).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("DisplayAll");
             }
@@ -71,6 +60,37 @@ namespace PrimaryKeyExample.Controllers
             }
             //}
             //return View(userDetails);
+        }
+        public ActionResult Details(int? id)
+        {
+            /*using */DatabaseContext db = new DatabaseContext()
+            
+                NewUserEdit newUserEdit = db.NewUSers.Find(id);
+                return View(newUserEdit);
+            
+            
+        }
+        public ActionResult Delete()
+        {
+            return View();
+        }
+        public ActionResult Delete(NewUserEdit newUserEdit)
+        {
+            var userId = WebSecurity.GetUserId(Session["UserName"].ToString());
+            try
+            {
+                newUserEdit = methods.Find(userId);
+                methods.Delete(newUserEdit);
+                Session["UserName"] = null;
+                return RedirectToAction("Index", "Home");
+
+            }
+            catch(Exception e)
+            {
+                ModelState.AddModelError("", "Cannot Delete ");
+                return View();
+            }
+            
         }
     }
 }

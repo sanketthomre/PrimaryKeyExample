@@ -15,12 +15,13 @@ namespace PrimaryKeyExample.Context
         public DbSet<Recharge> Recharge { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
         //public DbSet<UserRecharge> UserRecharge { get; set; }
-        
+        public DbSet<GuestLogin> Guests { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<NewUser>().MapToStoredProcedures();
             base.OnModelCreating(modelBuilder);
         }
 
-        public System.Data.Entity.DbSet<PrimaryKeyExample.Models.UserTransactions.UserRecharge> UserRecharges { get; set; }
+        public DbSet<UserRecharge> UserRecharges { get; set; }
     }
 }

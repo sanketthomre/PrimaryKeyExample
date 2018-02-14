@@ -12,7 +12,7 @@ namespace PrimaryKeyExample.Models.Transactions
         [Key]
         public int RechargeID { get; set; }
         [Required(ErrorMessage ="Can't Imagine Recharge without a number")]
-        public int MobileNumber { get; set; }
+        public string MobileNumber { get; set; }
         public string Operator { get; set; }
         [Required(ErrorMessage ="Please Provide with Amount")]
         public double Amount { get; set; }
