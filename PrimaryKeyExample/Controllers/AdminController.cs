@@ -1,13 +1,9 @@
 ﻿using PrimaryKeyExample.Context;
 using PrimaryKeyExample.Models;
-using PrimaryKeyExample.Models.Admin_Controlls;
 using PrimaryKeyExample.Server;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
-using System.Linq;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 
@@ -34,6 +30,7 @@ namespace PrimaryKeyExample.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HandleError(ExceptionType = typeof(System.Data.DataException),View ="~/Error/Error")]
         public ActionResult Edit([Bind(Include ="Name,AadharNum,MobileNumber")]NewUserEdit data)
         {
             try
@@ -56,18 +53,18 @@ namespace PrimaryKeyExample.Controllers
                             ve.PropertyName, ve.ErrorMessage);
                     }
                 }
-                throw;
+                throw e;
             }
             //}
             //return View(userDetails);
         }
         public ActionResult Details(int? id)
         {
-            /*using */DatabaseContext db = new DatabaseContext()
-            
+            using (DatabaseContext db = new DatabaseContext())
+            {
                 NewUserEdit newUserEdit = db.NewUSers.Find(id);
                 return View(newUserEdit);
-            
+            }
             
         }
         public ActionResult Delete()

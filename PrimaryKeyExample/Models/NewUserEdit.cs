@@ -13,7 +13,7 @@ namespace PrimaryKeyExample.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NewUserId { get; set; }
-       
+
         public int UserId { get; set; }
 
         [Index(IsUnique = true)]
@@ -35,6 +35,7 @@ namespace PrimaryKeyExample.Models
         public long Aadharnum { get; set; }
 
         //[RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
+        [RegularExpression("^[0 - 9]{10}$")]
         [Required(ErrorMessage = "Contact number is required")]
         public string MobileNumber { get; set; }
         // public List<SelectListItem> State { get; set; }
