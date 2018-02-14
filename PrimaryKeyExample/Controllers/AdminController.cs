@@ -63,11 +63,11 @@ namespace PrimaryKeyExample.Controllers
         }
         public ActionResult Details(int? id)
         {
-            using (DatabaseContext db = new DatabaseContext())
-            {
+            /*using */DatabaseContext db = new DatabaseContext()
+            
                 NewUserEdit newUserEdit = db.NewUSers.Find(id);
                 return View(newUserEdit);
-            }
+            
             
         }
         public ActionResult Delete()
